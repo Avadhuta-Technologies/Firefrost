@@ -1,0 +1,28 @@
+.data-list-container {
+
+    .data-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        .loop {
+            min-width: 32%;
+            max-width: 32%;
+            word-break: break-word;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+
+            label {
+                font-size: 16px;
+                letter-spacing: 0.9px;
+                text-transform: capitalize;
+            }
+
+            p {
+                font-size: 14px;
+                margin-bottom: 0px;
+                color: #8b8b8b;
+            }
+        }
+    }
+}

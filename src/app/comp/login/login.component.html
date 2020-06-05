@@ -1,0 +1,28 @@
+<div class="main-content">
+  <div class="loader-container" *ngIf="showLoader">
+    <div class="loader">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  <div class="container-fluid h-100vh d-flex align-items-center justify-content-center">
+    <div class="card card-profile" style="width: 24rem">
+      <div class="card-avatar">
+        <img class="img" src="../../../assets/img/logo.png" />
+      </div>
+      <div class="card-body">
+        <h1 class="card-title text-primary mb-3">Firefrost</h1>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Enter your e-mail" type="text" [(ngModel)]="email" required>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Enter your password" type="password" [(ngModel)]="password" required>
+        </mat-form-field>
+        <div class="clear-fix"></div>
+        <br>
+        <div class="d-flex align-items-center justify-content-center">
+          <button mat-raised-button type="button" class="btn btn-primary" (click)="login()">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

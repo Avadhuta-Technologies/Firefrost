@@ -1,0 +1,49 @@
+<div class="card card-profile">
+  <div class="card-header card-header-primary">
+    <h4 class="card-title d-flex align-items-center text-uppercase">
+      <span class="material-icons mr-2">
+        input
+      </span>{{modalTitle}}</h4>
+  </div>
+  <br>
+  <div class="card-body">
+    <mat-form-field *ngIf="isSaveQuery">
+      <mat-label>{{modalTitle}}</mat-label>
+      <input matInput [(ngModel)]="title">
+    </mat-form-field>
+    <div *ngIf="!isSaveQuery">
+      <div *ngFor="let data of inputQuerys">
+        <mat-form-field>
+          <mat-label>{{data}}</mat-label>
+          <input matInput (keyup)="changeInput($event.target.value,data)">
+        </mat-form-field>
+      </div>
+    </div>
+    <br>
+    <div class="d-flex align-items-center justify-content-center" style="background-color: #f4f6f8;">
+      <button class="btn btn-default btn-link" (click)="onNoClick()">No Thanks</button>
+      <button class="btn btn-primary" [mat-dialog-close]="title || inputKeys" cdkFocusInitial>Okay</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- <h1 mat-dialog-title>{{modalTitle}}</h1>
+<div mat-dialog-content>
+    <mat-form-field *ngIf="!inputQuerys">
+        <mat-label>{{modalTitle}}</mat-label>
+        <input matInput [(ngModel)]="title">
+    </mat-form-field>
+    <div *ngIf="inputQuerys">
+        <div *ngFor="let data of inputQuerys">
+            <mat-form-field>
+                <mat-label>{{data}}</mat-label>
+                <input matInput (keyup)="changeInput($event.target.value,data)">
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="title || inputKeys" cdkFocusInitial>Ok</button>
+</div> -->

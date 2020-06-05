@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist/ivisit-admin-pannel",
+    "site": "firefrost",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+.app-drawer-container {
+  top: 64px !important;
+
+  .query-list {
+    border-bottom: 1px solid #f8f8f8;
+    .query-title {
+      display: block;
+      text-overflow: ellipsis;
+      overflow: hidden !important;
+      white-space: nowrap;
+    }
+  }
+}

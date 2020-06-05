@@ -1,0 +1,79 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card card-profile mx-auto" style="width: 70%">
+      <div class="card-header card-header-primary text-center">
+        <h4 class="card-title">VIEW DETAILS</h4>
+      </div>
+      <div class="card-body data-list-container">
+        <div class="data-list">
+          <div class="loop text-left" *ngFor="let item of labelList">
+            <label class="text-primary">{{item}}</label>
+            <p *ngIf="typeOf(currentData[item]) !=='object'">{{currentData[item]}}</p>
+            <p *ngIf="currentData[item] && typeOf(currentData[item])=='object' ? (currentData[item].seconds ?
+                currentData[item].seconds : null):null">
+              {{currentData[item] && currentData[item].seconds && setDate(currentData[item].seconds)}}
+            </p>
+            <p *ngIf="currentData[item] &&  checkDateType(currentData[item])">
+              {{currentData[item]}}
+            </p>
+            <p *ngIf=" currentData[item] && typeOf(currentData[item] )=='object' ? (currentData[item] .latitude ?
+                currentData[item] .latitude : null) && (currentData[item] .longitude ?currentData[item] .longitude :
+                null):null">
+              {{currentData[item] && currentData[item].latitude ? currentData[item].latitude:null}},
+              {{currentData[item] && currentData[item].longitude ? currentData[item].longitude : null}}
+            </p>
+            <p *ngIf="currentData[item] && typeOfArray(currentData[item])">
+              {{currentData[item].toString()}}
+            </p>
+            <p
+              *ngIf="currentData[item] &&  item!=='ref' && typeOf(currentData[item]) =='object' && !checkLatAndLag(currentData[item].latitude ? currentData[item].latitude :null)
+                                                        && !checkSecondsForTimeStamp(currentData[item].seconds ? currentData[item].seconds :null)">
+              <ng-container *ngFor="let innerItem of getObjectKeys(currentData[item])">
+                <p><b>{{innerItem}}</b> : {{currentData[item][innerItem]}}</p>
+              </ng-container>
+            </p>
+          </div>
+        </div>
+        <hr>
+        <div class="clearfix"></div>
+        <button mat-raised-button color="primary" class="btn btn-primary btn-link" (click)="goBack()">Go Back</button>
+        <button mat-raised-button color="primary" class="btn btn-primary" (click)="goToEdit()">Edit</button>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div class="data-list-container">
+    <h3>Data Details</h3>
+    <div class="data-list">
+      <div class="loop" *ngFor="let item of labelList">
+        <label><b>{{item}}</b></label>
+        <p *ngIf="typeOf(currentData[item]) !=='object'">{{currentData[item]}}</p>
+        <p *ngIf="currentData[item] && typeOf(currentData[item])=='object' ? (currentData[item].seconds ?
+                currentData[item].seconds : null):null">
+          {{currentData[item] && currentData[item].seconds && setDate(currentData[item].seconds)}}
+        </p>
+        <p *ngIf="currentData[item] &&  typeOf(currentData[item] )=='object' ? (currentData[item] .latitude  ? currentData[item] .latitude : null)
+                                    && (currentData[item] .longitude  ?currentData[item] .longitude : null):null">
+          {{currentData[item] && currentData[item].latitude ? currentData[item].latitude:null}},
+          {{currentData[item] && currentData[item].longitude ? currentData[item].longitude : null}}
+        </p>
+        <p *ngIf="currentData[item] && typeOfArray(currentData[item])">
+          {{currentData[item].toString()}}
+        </p>
+        <p *ngIf="currentData[item] &&  item!=='ref' && typeOf(currentData[item]) =='object' && !checkLatAndLag(currentData[item].latitude ? currentData[item].latitude :null)
+                                                        && !checkSecondsForTimeStamp(currentData[item].seconds ? currentData[item].seconds :null)">
+          <ng-container *ngFor="let innerItem of getObjectKeys(currentData[item])">
+            <p><b>{{innerItem}}</b> : {{currentData[item][innerItem]}}</p>
+          </ng-container>
+        </p>
+      </div>
+    </div>
+    <div class="action-btn">
+<<<<<<< HEAD
+      <button mat-raised-button color="primary" (click)="goToEdit()" style="margin-right: 10px;">Edit</button>
+      <button mat-raised-button color="primary" (click)="goBack()">Go Back</button>
+=======
+        <button mat-raised-button color="primary" (click)="goBack()">Go Back</button>
+>>>>>>> 5f292144a2ae5e3b5260fbc9297660eec18940c5
+    </div>
+  </div> -->

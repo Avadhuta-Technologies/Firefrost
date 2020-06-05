@@ -1,0 +1,81 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card card-profile mx-auto" style="width: 50%">
+      <div class="card-header card-header-primary text-center">
+        <h4 class="card-title">UPDATE DETAILS</h4>
+      </div>
+      <br>
+      <div class="card-body">
+        <form [formGroup]="myForm">
+          <div class="form-group">
+            <ng-template #nodeTemplateRef let-node="node" let-formElement="formElement">
+              <div class="node">
+                <div *ngIf="node.children.length">
+                  <section [formGroup]="formElement" class="obj-container">
+                    <h3 class="text-gray mb-0">{{ node.key }}</h3>
+                    <ng-template *ngFor="let myKey of node.children"
+                    [ngTemplateOutlet]="nodeTemplateRef"
+                    [ngTemplateOutletContext]="{ node: myKey, formElement: formElement.controls[myKey.key] }">
+                    </ng-template>
+                  </section>
+                </div>
+                <div *ngIf="!node.children.length">
+                  <mat-form-field class="example-full-width">
+                    <label class="mb-0" for="{{node.ke}}y">{{node.key}}</label>&nbsp;
+                    <input matInput id="{{node.key}}" [formControl]="formElement" class="form-control">
+                  </mat-form-field>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template *ngFor="let myKey of myKeys"
+            [ngTemplateOutlet]="nodeTemplateRef"
+            [ngTemplateOutletContext]="{ node: myKey, formElement: myForm.controls[myKey.key] }">
+            </ng-template>
+            <br>
+            <div class="d-flex align-items-center justify-content-center">
+              <button mat-raised-button type="button" class="btn btn-primary btn-link" (click)="goBack()">Go Back</button>
+              <button mat-raised-button type="button" class="btn btn-primary" (click)="updateDoc(myForm.value)">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+
+<div class="data-list-container">
+    <h3>Data Details</h3>
+    <form [formGroup]="myForm">
+        <div class="form-group">
+            <ng-template #nodeTemplateRef let-node="node" let-formElement="formElement">
+                <div class="node">
+                    <div *ngIf="node.children.length">
+                        <section [formGroup]="formElement">
+                            <h1>{{ node.key }}</h1>
+                            <ng-template *ngFor="let myKey of node.children" [ngTemplateOutlet]="nodeTemplateRef"
+                                [ngTemplateOutletContext]="{ node: myKey, formElement: formElement.controls[myKey.key] }">
+                            </ng-template>
+                        </section>
+                    </div>
+                    <div *ngIf="!node.children.length">
+                        <div>
+                            <label for="{{node.ke}}y">{{node.key}}</label>&nbsp;
+                            <input type="text" id="{{node.key}}" [formControl]="formElement" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template *ngFor="let myKey of myKeys" [ngTemplateOutlet]="nodeTemplateRef"
+                [ngTemplateOutletContext]="{ node: myKey, formElement: myForm.controls[myKey.key] }">
+            </ng-template>
+            <div class="action-btn">
+                <button mat-raised-button color="primary" style="margin-right: 20px;" (click)="goBack()">Go
+                    Back</button>
+                <button mat-raised-button color="primary" (click)="updateDoc(myForm.value)">Update</button>
+            </div>
+        </div>
+    </form>
+</div> -->
+

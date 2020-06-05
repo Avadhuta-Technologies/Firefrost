@@ -1,0 +1,98 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card card-profile mx-auto" style="width: 70%">
+      <div class="card-header card-header-primary text-center">
+        <h4 class="card-title">DELETE DETAILS</h4>
+      </div>
+      <div class="card-body data-list-container">
+        <div class="data-list">
+          <div class="loop text-left" *ngFor="let item of labelList">
+            <label class="text-primary">{{item}}</label>
+            <p *ngIf="typeOf(currentData[item]) !=='object'">{{currentData[item]}}</p>
+            <p *ngIf="currentData[item] && typeOf(currentData[item])=='object' ? (currentData[item].seconds ?
+                currentData[item].seconds : null):null">
+              {{currentData[item] && currentData[item].seconds && setDate(currentData[item].seconds)}}
+            </p>
+            <p *ngIf="currentData[item] &&  checkDateType(currentData[item])">
+              {{currentData[item]}}
+            </p>
+            <p *ngIf="currentData[item] &&  typeOf(currentData[item] )=='object' ? (currentData[item] .latitude  ? currentData[item] .latitude : null)
+                                    && (currentData[item] .longitude  ?currentData[item] .longitude : null):null">
+              {{currentData[item] && currentData[item].latitude ? currentData[item].latitude:null}},
+              {{currentData[item] && currentData[item].longitude ? currentData[item].longitude : null}}
+            </p>
+            <p *ngIf=" currentData[item] && typeOf(currentData[item] )=='object' ? (currentData[item] .latitude ?
+                currentData[item] .latitude : null) && (currentData[item] .longitude ?currentData[item] .longitude :
+                null):null">
+              {{currentData[item] && currentData[item].latitude ? currentData[item].latitude:null}},
+              {{currentData[item] && currentData[item].longitude ? currentData[item].longitude : null}}
+            </p>
+            <p *ngIf="currentData[item] && typeOfArray(currentData[item])">
+              {{currentData[item].toString()}}
+            </p>
+            <p *ngIf="currentData[item] &&  item!=='ref' && typeOf(currentData[item]) =='object' && !checkLatAndLag(currentData[item].latitude ? currentData[item].latitude :null)
+                                                        && !checkSecondsForTimeStamp(currentData[item].seconds ? currentData[item].seconds :null)">
+              <ng-container *ngFor="let innerItem of getObjectKeys(currentData[item])">
+                <p><b>{{innerItem}}</b> : {{currentData[item][innerItem]}}</p>
+              </ng-container>
+            </p>
+            <div class="delete-query" *ngIf="deleteQueryString">
+              <textarea matInput autofocus="true" placeholder="Delete Query" [(ngModel)]="deleteQueryString"></textarea>
+              <p class="info">Note: Write Your Delete Query Based On Your Collection Data,upto Delete() method ex:
+                <label>this.db.collection('dummycollection').doc('docid').delete()</label>
+              </p>
+              <button mat-raised-button color="primary" (click)="deleteQueryFromFirebase()">Execute Delete Query</button>
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="clearfix"></div>
+        <button class="btn btn-primary btn-link mr-2" (click)="goBack()">Go Back</button>
+        <button class="btn btn-primary" (click)="deleteDoc()">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--
+<div class="data-list-container">
+  <h3>Data Details</h3>
+  <div class="data-list">
+    <div class="loop" *ngFor="let item of labelList">
+      <label><b>{{item}}</b></label>
+      <p *ngIf="typeOf(currentData[item]) !=='object'">
+        {{currentData[item]}}</p>
+      <p *ngIf="currentData[item] && typeOf(currentData[item])=='object' ? (currentData[item].seconds ?
+                currentData[item].seconds : null):null">
+        {{currentData[item] && currentData[item].seconds && setDate(currentData[item].seconds)}}
+      </p>
+      <p *ngIf="currentData[item] &&  typeOf(currentData[item] )=='object' ? (currentData[item] .latitude  ? currentData[item] .latitude : null)
+                                    && (currentData[item] .longitude  ?currentData[item] .longitude : null):null">
+        {{currentData[item] && currentData[item].latitude ? currentData[item].latitude:null}},
+        {{currentData[item] && currentData[item].longitude ? currentData[item].longitude : null}}
+      </p>
+      <p *ngIf="currentData[item] &&  checkDateType(currentData[item])">
+        {{currentData[item]}}
+      </p>
+      <p *ngIf="currentData[item] && typeOfArray(currentData[item])">
+        {{currentData[item].toString()}}
+      </p>
+      <p *ngIf=" currentData[item] && item !=='ref' && typeOf(currentData[item]) =='object' && !checkLatAndLag(currentData[item].latitude ? currentData[item].latitude :null)
+                                                        && !checkSecondsForTimeStamp(currentData[item].seconds ? currentData[item].seconds :null)">
+        <ng-container *ngFor=" let innerItem of getObjectKeys(currentData[item])">
+          <p><b>{{innerItem}}</b> : {{currentData[item][innerItem]}}</p>
+        </ng-container>
+      </p>
+    </div>
+  </div>
+  <div class="delete-query" *ngIf="deleteQueryString">
+    <textarea matInput autofocus="true" placeholder="Delete Query" [(ngModel)]="deleteQueryString"></textarea>
+    <p class="info">Note: Write Your Delete Query Based On Your Collection Data,upto Delete() method ex:
+      <label>this.db.collection('dummycollection').doc('docid').delete()</label>
+    </p>
+    <button mat-raised-button color="primary" (click)="deleteQueryFromFirebase()">Execute Delete Query</button>
+  </div>
+  <div class="action-btn">
+    <button mat-raised-button (click)="goBack()" style="margin-right: 10px;">Cancel</button>
+    <button mat-raised-button color="primary" (click)="deleteDoc()">Delete</button>
+  </div>
+</div> -->

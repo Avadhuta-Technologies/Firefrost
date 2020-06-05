@@ -1,0 +1,150 @@
+<mat-toolbar color="secondary" role="heading">
+  <button mat-icon-button (click)="sidenav.toggle()" class="text-primary">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1 style="flex: 1 0 auto;" class="text-primary">{{ title }} <span
+      *ngIf="currentUser && currentUser.name && currentUser.role==='user'" style="font-size: 13px;">Welcome
+      {{currentUser.name}}</span></h1>
+  <button class="btn btn-default" (click)="logout()" *ngIf="currentUser && currentUser.role==='user'">
+    <i class="material-icons mr-2">power_settings_new</i>LogOut
+  </button>
+</mat-toolbar>
+
+<div class="main-content">
+  <div class="container-fluid">
+    <mat-sidenav-container class='app-drawer-container' fullscreen>
+      <mat-sidenav #sidenav mode="side" [opened]="true" style="width: 300px;">
+        <div class="sample-query-list">
+          <div class="search-box">
+            <div class="input-group p-2">
+              <input type="text" class="form-control" placeholder="Search" autofocus="true"
+                (keyup)="searchQuery($event.target.value)">
+            </div>
+          </div>
+          <mat-selection-list [multiple]="false">
+            <mat-list-option class="query-list" [class.active]="selectedQuery && selectedQuery.title==query.title"
+              *ngFor="let query of querylist" (click)="selectQuery(query)">
+              <h4 class="card-title query-title mb-0 d-flex align-items-center">
+                <span class="material-icons mr-2 fs-16">
+                  account_tree
+                </span>{{query.title}}</h4>
+            </mat-list-option>
+          </mat-selection-list>
+          <p *ngIf="!querylist.length" class="text-center">No Query Found</p>
+        </div>
+      </mat-sidenav>
+
+      <mat-sidenav-content class="p-3 h-100">
+
+        <div class="loader-container" *ngIf="showLoader">
+          <div class="loader">
+            <mat-spinner></mat-spinner>
+          </div>
+        </div>
+
+        <div *ngIf="!dataFound" class="h-100 d-flex align-items-center justify-content-center flex-column">
+          <img class="w-25" src="../../../assets/img/select.png">
+          <h1 class="p-5 text-gray">Please select a query</h1>
+        </div>
+
+
+        <div class="card" *ngIf="dataFound">
+          <div class="card-header card-header-primary d-flex align-items-center justify-content-between">
+            <h3 class="card-title d-flex align-items-center">
+              <span class="material-icons text-white fs-16 mr-2">
+                check_circle
+              </span>{{selectedQuery.title}}
+              <span class="card-category ml-5 fs-13">({{tableBody.filteredData.length}} records found)</span>
+            </h3>
+            <button class="btn btn-primary btn-fab btn-fab-mini btn-round" title="export" (click)="exportToExcel()">
+              <i class="material-icons">cloud_download</i>
+            </button>
+          </div>
+          <div class="card-body">
+            <mat-form-field class="w-100">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Filter by any key">
+            </mat-form-field>
+            <div class="table-responsive table-container">
+              <table mat-table [dataSource]="tableBody" matSort class="mat-elevation-z8 w-100">
+                <ng-container [matColumnDef]="config" *ngFor="let config of tableheader; trackBy: trackByIndex">
+                  <th class="text-primary" mat-header-cell *matHeaderCellDef mat-sort-header> {{config}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element[config]}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="tableheader; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableheader;"></tr>
+              </table>
+              <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10, 25, 35]" showFirstLastButtons>
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+</div>
+
+
+<!--
+<div class="app-wrapper">
+    <mat-sidenav-container class='app-drawer-container' fullscreen>
+        <mat-sidenav #sidenav mode="side" [opened]="true">
+            <div class="search-box" *ngIf="filtredQuerylist.length>5">
+                <input placeholder="Search" class="search-query" autofocus="true" (ngModelChange)="searchQuery($event)"
+                    [(ngModel)]="searchQueryString">
+            </div>
+            <div class="sample-query-list" *ngIf="querylist && querylist.length">
+                <mat-selection-list #shoes [multiple]="false">
+                    <mat-list-option [class.active]="selectedQuery && selectedQuery.title==query.title"
+                        *ngFor="let query of querylist" (click)="selectQuery(query)">
+                        <h4 class="card-title text-gray mb-1 d-flex align-items-center">
+                          <span class="material-icons mr-2 fs-16">
+                            account_tree
+                          </span>{{query.title}}</h4>
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <p style="text-align: center;margin-top: 5px;" *ngIf="!querylist.length || !filtredQuerylist.length">No Data
+                Found</p>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="loader-container" *ngIf="showLoader">
+                <div class="loader">
+                    <mat-spinner></mat-spinner>
+                </div>
+            </div>
+            <div class="table-content">
+                <h3 *ngIf="!dataFound">Please Select The Query</h3>
+                <ng-container *ngIf="dataFound">
+                    <mat-form-field style=" width: 100%;">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="filter by any key">
+                    </mat-form-field>
+                    <div class="table-container">
+                        <table mat-table [dataSource]="tableBody" matSort class="mat-elevation-z8">
+                            <ng-container [matColumnDef]="config"
+                                *ngFor="let config of tableheader; trackBy: trackByIndex">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{config}} </th>
+                                <td mat-cell *matCellDef="let element"> {{element[config]}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="tableheader; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: tableheader;"></tr>
+                        </table>
+                        <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10, 25, 35]"
+                            showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </ng-container>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    <mat-toolbar color="secondary" role="heading">
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1 style="flex: 1 0 auto;">{{ title }}</h1>
+        <button mat-raised-button color="primary" (click)="logout()">
+            LogOut
+        </button>
+    </mat-toolbar>
+</div> -->

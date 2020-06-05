@@ -1,0 +1,219 @@
+<mat-toolbar color="secondary" role="heading">
+  <button class="btn btn-link btn-fab" (click)="router.navigate(['/query-page'])">
+    <i class="material-icons text-primary">arrow_back</i>
+  </button>
+  <h1 style="flex: 1 0 auto;" class="text-primary">{{ title }}</h1>
+  <button class="btn btn-default mr-2" (click)="showSideNav('userlist')">
+    <i class="material-icons mr-2">format_list_numbered</i> Users list
+  </button>
+  <button class="btn btn-primary" (click)="showSideNav('createuser')">
+    <i class="material-icons mr-2">add</i> Create User
+  </button>
+</mat-toolbar>
+
+<div class="main-content">
+  <div class="container-fluid">
+
+    <div class="loader-container" *ngIf="showLoader">
+      <div class="loader">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+
+    <div class="h-100vh d-flex align-items-center justify-content-center" *ngIf="isCreateUser">
+      <div class="card card-profile" style="width: 32rem">
+        <div class="card-header card-header-primary text-center">
+          <h4 class="card-title d-flex align-items-center justify-content-center">
+            <span class="material-icons text-white mr-2">
+              person_add
+            </span>
+            CREATE USER</h4>
+        </div>
+        <br>
+        <div class="card-body">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Enter your e-mail" type="text" [(ngModel)]="email" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Enter your name" type="text" [(ngModel)]="name" required>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <mat-label>Role</mat-label>
+            <mat-select [(ngModel)]="role" name="role">
+              <mat-option *ngFor="let role of roleList" [value]="role.name">
+                {{role.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="form-check form-check-radio">
+            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+              [(ngModel)]="isActive">
+              <mat-radio-button style="margin-right: 24px;" class="example-radio-button"
+                *ngFor="let active of activelist" [value]="active">
+                {{active}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="clear-fix"></div>
+          <br>
+          <div class="d-flex align-items-center justify-content-center">
+            <button mat-raised-button type="button" class="btn btn-white btn-mw-120 mr-2"
+              (click)="cancel()">cancel</button>
+            <button mat-raised-button type="button" class="btn btn-primary"
+              (click)="createUser()">{{createbtnText}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row w-100 pt-4 mt-5" *ngIf="isUserList">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h3 class="card-title d-flex align-items-center">
+              <span class="material-icons text-white fs-16 mr-2">
+                people_alt
+              </span>Users list
+              <span class="card-category ml-5 fs-13 text-white">({{tableBody.filteredData.length}} records found)</span>
+            </h3>
+          </div>
+          <div class="card-body">
+            <mat-form-field class="w-100">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Filter by any key">
+            </mat-form-field>
+            <div class="table-responsive table-container">
+              <table mat-table [dataSource]="tableBody" matSort class="mat-elevation-z8 w-100">
+                <ng-container [matColumnDef]="config" *ngFor="let config of tableheader; trackBy: trackByIndex">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-primary"> {{config}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element[config]}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="tableheader; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: tableheader;"
+                  [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="selectRow(row)"></tr>
+              </table>
+              <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10, 25, 35]" showFirstLastButtons>
+              </mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-snackbar mat-elevation-z8" *ngIf="selectedRowIndex">
+      <button (click)="closeBtn()" class="btn btn-white btn-mw-120 mr-2">
+        <span class="material-icons mr-2">close</span>Cancel</button>
+      <button (click)="deleteDoc()" class="btn btn-default btn-mw-120 mr-2">
+        <span class="material-icons mr-2">delete</span>Delete</button>
+      <button (click)="editDoc()" class="btn btn-primary btn-mw-120">
+        <span class="material-icons mr-2">edit</span>Edit</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <div class="app-wrapper">
+  <mat-sidenav-container class='app-drawer-container' fullscreen>
+    <mat-sidenav #sidenav mode="side" [opened]="true">
+      <mat-selection-list #shoes [multiple]="false">
+        <mat-list-option [class.active]="isUserList" (click)="showSideNav('userlist')">
+          User List
+        </mat-list-option>
+        <mat-list-option [class.active]="isCreateUser" (click)="showSideNav('createuser')">
+          Create User
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="loader-container" *ngIf="showLoader">
+        <div class="loader">
+          <mat-spinner></mat-spinner>
+        </div>
+      </div>
+
+      <div class="configure-container" *ngIf="isCreateUser">
+        <h3>Create User</h3>
+        <div class="configure-firebase-project">
+          <div>
+            <mat-form-field>
+              <mat-label>Enter Email</mat-label>
+              <input matInput [(ngModel)]="email" required>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Enter Name</mat-label>
+              <input matInput [(ngModel)]="name" required>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label>Role</mat-label>
+              <mat-select [(ngModel)]="role" name="role">
+                <mat-option *ngFor="let role of roleList" [value]="role.name">
+                  {{role.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div>
+          <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="isActive">
+            <mat-radio-button style="margin-right: 10px;" class="example-radio-button" *ngFor="let active of activelist" [value]="active">
+              {{active}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div class="configure-btn">
+          <button mat-raised-button color="primary" (click)="createUser()">{{createbtnText}} </button>
+        </div>
+      </div>
+
+      <div class="table-content" *ngIf="isUserList">
+        <ng-container>
+          <mat-form-field style=" width: 100%;">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="filter by any key">
+          </mat-form-field>
+          <div class="table-container">
+            <table mat-table [dataSource]="tableBody" matSort class="mat-elevation-z8">
+              <ng-container [matColumnDef]="config" *ngFor="let config of tableheader; trackBy: trackByIndex">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{config}} </th>
+                <td mat-cell *matCellDef="let element"> {{element[config]}} </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="tableheader; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: tableheader;" [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="selectRow(row)"></tr>
+              <tr>
+            </table>
+            <mat-paginator class="mat-paginator-sticky" [pageSizeOptions]="[10, 25, 35]" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </ng-container>
+      </div>
+
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <mat-toolbar color="primary" role="heading">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 style="flex: 1 0 auto;">{{ title }}</h1>
+    <button mat-raised-button color="primary" (click)="router.navigate(['/query-page'])">
+      Back
+    </button>
+  </mat-toolbar>
+
+  <div *ngIf="selectedRowIndex">
+    <div class="snackbar">
+      <div class="close" (click)="closeBtn()"><span class="material-icons">
+          close
+        </span></div>
+      <div>
+        <button mat-raised-button color="primary" class="customBtnwidth" (click)="deleteDoc()" style="margin-right: 6px;">Delete</button>
+        <button mat-raised-button color="primary" class="customBtnwidth" (click)="editDoc()" style="margin-right: 6px;">Edit</button>
+      </div>
+    </div>
+  </div>
+</div> -->

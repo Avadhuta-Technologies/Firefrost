@@ -1,0 +1,34 @@
+.mat-drawer {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  background-color: #f4f6f8;
+}
+.sidenav-content {
+  padding: 64px 0;
+
+  .search-box {
+    input {
+      border: none;
+    }
+  }
+  .form-control:focus {
+    box-shadow: none !important;
+  }
+}
+
+.vertical-center {
+  position: absolute;
+  top: 60%;
+  transform: translate(0, -50%);
+}
+
+.query-card {
+  margin: 4px 0;
+  padding: 0;
+  border-bottom: 1px solid #e7e9e9;
+  cursor: pointer;
+}
+.query-card:hover {
+  background-color: #f4f6f8;
+}

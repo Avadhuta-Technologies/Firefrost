@@ -1,0 +1,20 @@
+    <div class="card card-profile">
+      <div class="card-header card-header-danger">
+        <h4 class="card-title d-flex align-items-center text-uppercase">
+          <span class="material-icons mr-2">
+            warning
+          </span>{{currentData ? currentData.modalTitle:''}}</h4>
+      </div>
+      <br>
+      <div class="card-body">
+        <div class="p-2">
+          {{currentData ? currentData.modalContent: ''}}
+        </div>
+        <div class="clear-fix"></div>
+        <br>
+        <div class="d-flex align-items-center justify-content-center" style="background-color: #f4f6f8;">
+          <button class="btn btn-default btn-link" (click)="onNoClick()">No Thanks</button>
+          <button class="btn btn-danger" [mat-dialog-close]="'ok'" cdkFocusInitial>Ok</button>
+        </div>
+      </div>
+    </div>
