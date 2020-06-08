@@ -7,10 +7,11 @@ All the queries and user data will be stored and fetched from your Firebase acco
 Installation 
 ------------
 
-1. Clone this project from Github 
-2. fetch the Firebase config file from your Firebase account (Json file)
-3. copy the config file to the src folder (file name must be firebase-config.json)
-4. Deploy it to your Firebase hosting with "firebase deploy --project <your_project_id>"
+1. Clone this project from Github
+2. Go to your firebase project>settings and copy the firebase config json to `src/firebase-config.json`
+3. Create a new site in firebase hosting with 'site-name'.
+4. Edit firebase.json in root of this project and replace `"site": "firefrost",` with `"site": "site-name"`,
+5. Deploy it to your Firebase hosting with `firebase deploy --only hosting:site-name`
 
 Firebase Admin Account
 ----------------------
